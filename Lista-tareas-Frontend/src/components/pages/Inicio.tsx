@@ -1,26 +1,53 @@
-import { useAppContext } from "../../context/AppContext";
+//import { useAppContext } from "../../context/AppContext";
+import { useEffect, useState } from "react";
 import CardTarea from "../services/CardTarea";
-
+import { Tarea } from "../../interfaces/tareas";
+import { listarTareasApi } from "../../helpers/queries";
+import Swal from "sweetalert2";
 const Inicio = () => {
-  const { tareas } = useAppContext();
+  //const { tareas } = useAppContext();
+  const [tareas, setTareas] = useState<Tarea[]>;
+
+  useEffect(() => {
+    cargarTareas();
+  }, []);
+
+  const cargarTareas = async () => {
+    const respuestaTarea = await listarTareasApi();
+    console.log(respuestaTarea);
+    if (respuestaTarea && respuestaTarea.status === 200) {
+      const data = await respuestaTarea.json();
+      console.log(data);
+      setTareas(data);
+    } else {
+      Swal.fire({
+        title: "Ocurrio un Error",
+        text: "No se pudo mostrar la tarea creada",
+        icon: "error",
+        background: "#18181b",
+        color: "#f4f4f5",
+        confirmButtonColor: "#3b82f6",
+      });
+    }
+  };
   return (
     <section className="w-full min-h-screen space-y-8 animate-fadeIn py-6 px-0">
       {/* Encabezado con estilo moderno */}
       <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-zinc-800 pb-5 gap-4 text-center">
         <div className="w-full flex flex-col items-center justify-center mb-8 gap-2">
           <h1 className="text-3xl font-bold text-white tracking-tight text-center">
-            Lista de  <span className="text-blue-500">Tareas</span>
+            Lista de <span className="text-blue-500">Tareas</span>
           </h1>
           <p className="text-zinc-400 mt-1 text-sm text-center">
             Tareas para el mes de Agosto de 2026
           </p>
-        </div> 
+        </div>
 
         <div className="text-xs text-zinc-500 bg-zinc-900 px-3 py-1 rounded-full border border-zinc-800 self-start md:self-center">
-           {tareas.length} tareas disponibles
+          {tareas.length} tareas disponibles
         </div>
       </div>
-     {tareas.length > 0 ? (
+      {tareas.length > 0 ? (
         <div className="w-full flex flex-col gap-2">
           {tareas.map((tarea) => (
             <CardTarea key={tarea.id} tarea={tarea} />

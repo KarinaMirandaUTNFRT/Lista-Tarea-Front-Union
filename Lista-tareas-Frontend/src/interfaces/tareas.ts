@@ -1,5 +1,5 @@
 export interface Tarea  {
-  id: string;
+  _id: string;
   nombreTarea: string;
   fecha: Date;
   categoria: string;
