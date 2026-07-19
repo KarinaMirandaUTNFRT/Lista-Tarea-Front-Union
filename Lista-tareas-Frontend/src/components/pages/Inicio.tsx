@@ -6,7 +6,7 @@ import { listarTareasApi } from "../../helpers/queries";
 import Swal from "sweetalert2";
 const Inicio = () => {
   //const { tareas } = useAppContext();
-  const [tareas, setTareas] = useState<Tarea[]>;
+  const [tareas, setTareas] = useState<Tarea[]>([]);
 
   useEffect(() => {
     cargarTareas();
@@ -50,7 +50,7 @@ const Inicio = () => {
       {tareas.length > 0 ? (
         <div className="w-full flex flex-col gap-2">
           {tareas.map((tarea) => (
-            <CardTarea key={tarea.id} tarea={tarea} />
+            <CardTarea key={tarea._id} tarea={tarea} />
           ))}
         </div>
       ) : (
