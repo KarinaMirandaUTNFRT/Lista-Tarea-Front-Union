@@ -15,7 +15,7 @@ import {
 import { 
   buscarTareaApi, 
   crearTareaApi, 
-  editarTareaApi 
+  editarTareaApi, 
 } from "../../helpers/queries"; 
 
 interface FormularioTareaProps {
