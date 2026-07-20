@@ -57,7 +57,7 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
   const prioridadSeleccionada = watch("prioridad");
 
   // traigo los datos que necesito del contexto
-  const { crearTarea, buscarTarea, editarTarea } = useAppContext();
+  const { buscarTarea, editarTarea } = useAppContext();
   // traer el id de la ruta
   const { id } = useParams<{ id: string }>();
   const navegacion = useNavigate();
@@ -97,8 +97,8 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
 
   const onSubmit: SubmitHandler<Tarea> = (data, e) => {
     const datosConImagen = { ...data, imagen: "" };
-    if (titulo.includes("Crear") && crearTarea) {
-      crearTarea(data);
+    if (titulo.includes("Crear") && crearTareaApi) {
+      crearTareaApi(data);
       Swal.fire({
         title: "Tarea creada",
         text: `La Tarea '${data.nombreTarea}' fue creado correctamente`,
