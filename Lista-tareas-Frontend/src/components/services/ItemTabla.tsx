@@ -26,7 +26,7 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        borrarTarea(tarea.id);
+        borrarTarea(tarea._id);
         Swal.fire({
           title: "Eliminado",
           text: `El tarea fue eliminado correctamente`,
@@ -53,7 +53,7 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         <div className="flex gap-3">
           <Link
-            to={`/administrador/editar/${tarea.id}`}
+            to={`/administrador/editar/${tarea._id}`}
             className="text-amber-500 hover:text-amber-400 transition-colors flex items-center gap-1"
           >
             <LuPencil /> Editar

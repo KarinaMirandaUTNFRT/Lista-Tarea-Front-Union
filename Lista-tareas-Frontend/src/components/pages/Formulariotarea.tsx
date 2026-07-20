@@ -1,6 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Tarea } from "../../interfaces/tareas";
-import { useAppContext } from "../../context/AppContext";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -56,8 +55,6 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
   const areaSeleccionada = watch("categoria");
   const prioridadSeleccionada = watch("prioridad");
 
-  // traigo los datos que necesito del contexto
-  const { editarTarea } = useAppContext();
   // traer el id de la ruta
   const { id } = useParams<{ id: string }>();
   const navegacion = useNavigate();
