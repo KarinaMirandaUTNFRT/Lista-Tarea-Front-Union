@@ -8,7 +8,7 @@ export interface AppContextType {
   crearTarea: (nuevoTarea: tareaFormData) => void;
   borrarTarea: (idTarea: string) => void;
   editarTarea: (idTarea: string, tareaEditar: tareaFormData) => void;
-  buscarTarea: (idTarea: string) => Tarea | undefined;
+ 
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

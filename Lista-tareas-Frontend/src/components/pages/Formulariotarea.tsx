@@ -57,7 +57,7 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
   const prioridadSeleccionada = watch("prioridad");
 
   // traigo los datos que necesito del contexto
-  const { crearTarea, buscarTarea, editarTarea } = useAppContext();
+  const {editarTarea } = useAppContext();
   // traer el id de la ruta
   const { id } = useParams<{ id: string }>();
   const navegacion = useNavigate();
@@ -95,10 +95,10 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
     cargarTarea();
   }, [id, titulo, setValue]);
 
-  const onSubmit: SubmitHandler<Tarea> = (data, e) => {
-    const datosConImagen = { ...data, imagen: "" };
-    if (titulo.includes("Crear") && crearTarea) {
-      crearTarea(data);
+  const onSubmit: SubmitHandler<Tarea> = async(data, e) => {
+       if (titulo.includes("Crear") && crearTareaApi) {
+      const respuesta = await crearTareaApi(data);
+      if(respuesta && respuesta.status === 201){
       Swal.fire({
         title: "Tarea creada",
         text: `La Tarea '${data.nombreTarea}' fue creado correctamente`,
@@ -107,6 +107,17 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
         color: "#f4f4f5",
         confirmButtonColor: "#3b82f6",
       });
+      }else{
+        Swal.fire({
+        title: "Ocurrio un error",
+        text: `La Tarea '${data.nombreTarea}' No pudo ser creada correctamente`,
+        icon: "success",
+        background: "#18181b",
+        color: "#f4f4f5",
+        confirmButtonColor: "#3b82f6",
+      });
+      }
+      
       if (e) {
         (e.target as HTMLFormElement).reset();
       }

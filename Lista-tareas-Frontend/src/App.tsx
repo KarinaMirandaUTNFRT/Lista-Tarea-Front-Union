@@ -49,10 +49,7 @@ function App() {
     setTareas(tareasFiltrados);
   };
 
-  const editarTarea = (
-    idTarea: string,
-    tareaEditar: tareaFormData,
-  ) => {
+  const editarTarea = (idTarea: string, tareaEditar: tareaFormData) => {
     const tareasEditados = tareas.map((itemTarea) => {
       if (itemTarea.id === idTarea) {
         return { ...itemTarea, ...tareaEditar };
@@ -60,10 +57,6 @@ function App() {
       return itemTarea;
     });
     setTareas(tareasEditados);
-  };
-
-  const buscarTarea = (idTarea: string): Tarea | undefined => {
-    return tareas.find((item) => item.id === idTarea);
   };
 
   return (
@@ -75,7 +68,6 @@ function App() {
         crearTarea,
         borrarTarea,
         editarTarea,
-        buscarTarea
       }}
     >
       <BrowserRouter>
@@ -91,17 +83,13 @@ function App() {
                 <Route
                   path="crear"
                   element={
-                    <FormularioTarea
-                      titulo={"Crear Tarea"}
-                    ></FormularioTarea>
+                    <FormularioTarea titulo={"Crear Tarea"}></FormularioTarea>
                   }
                 />
                 <Route
                   path="editar/:id"
                   element={
-                    <FormularioTarea
-                      titulo={"Editar Tarea"}
-                    ></FormularioTarea>
+                    <FormularioTarea titulo={"Editar Tarea"}></FormularioTarea>
                   }
                 />
               </Route>
