@@ -26,7 +26,7 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
-        borrarTarea(tarea.id);
+        borrarTarea(tarea._id);
         Swal.fire({
           title: "Eliminado",
           text: `El tarea fue eliminado correctamente`,

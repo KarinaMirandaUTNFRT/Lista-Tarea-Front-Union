@@ -1,6 +1,5 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import type { Tarea } from "../../interfaces/tareas";
-import { useAppContext } from "../../context/AppContext";
 import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
@@ -10,14 +9,13 @@ import {
   MdOutlineDashboard,
   MdOutlineCellTower,
   MdConnectWithoutContact,
-  
 } from "react-icons/md";
 
-import { 
-  buscarTareaApi, 
-  crearTareaApi, 
-  editarTareaApi 
-} from "../../helpers/queries"; 
+import {
+  buscarTareaApi,
+  crearTareaApi,
+  editarTareaApi,
+} from "../../helpers/queries";
 
 interface FormularioTareaProps {
   titulo: string;
@@ -50,88 +48,81 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
     handleSubmit,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<Tarea>();
 
-  const areaSeleccionada = watch("categoria");
-  const prioridadSeleccionada = watch("prioridad");
-
   // traigo los datos que necesito del contexto
-  const {editarTarea } = useAppContext();
   // traer el id de la ruta
   const { id } = useParams<{ id: string }>();
   const navegacion = useNavigate();
 
   useEffect(() => {
-    const cargarTarea = async () => {
-      if (titulo.includes("Editar") && id && buscarTareaApi) {
-        try {
-          const respuesta = await buscarTareaApi(id);
-          if (respuesta.ok) {
-            // Esperamos a que el JSON se procese
-            const tareaBuscada = await respuesta.json();
-            
-            // Ahora tareaBuscada tiene los datos reales y TypeScript no dará error
-            setValue("nombreTarea", tareaBuscada.nombreTarea);
-            setValue("fecha", tareaBuscada.fecha);
-            setValue("categoria", tareaBuscada.categoria);
-            setValue("descripcion", tareaBuscada.descripcion);
-            setValue("prioridad", tareaBuscada.prioridad);
-          } else {
-            Swal.fire({
-              title: "Error",
-              text: "No se pudo obtener la información de la tarea.",
-              icon: "error",
-              background: "#18181b",
-              color: "#f4f4f5",
-            });
-          }
-        } catch (error) {
-          console.error("Error al cargar la tarea:", error);
+    obtenerTarea();
+  }, []);
+
+  const obtenerTarea = async () => {
+    if (titulo.includes("Editar") && id && buscarTareaApi) {
+      const respuesta = await buscarTareaApi(id);
+      if (respuesta && respuesta.status === 200) {
+        const tareaBuscada = await respuesta.json();
+        if (tareaBuscada) {
+          setValue("nombreTarea", tareaBuscada.nombreTarea);
+          setValue("fecha", tareaBuscada.fecha);
+          setValue("categoria", tareaBuscada.categoria);
+          setValue("descripcion", tareaBuscada.descripcion);
+          setValue("prioridad", tareaBuscada.prioridad);
         }
       }
-    };
-
-    cargarTarea();
-  }, [id, titulo, setValue]);
-
-  const onSubmit: SubmitHandler<Tarea> = async(data, e) => {
-       if (titulo.includes("Crear") && crearTareaApi) {
+    }
+  };
+  const onSubmit: SubmitHandler<Tarea> = async (data, e) => {
+    console.log(data);
+    if (titulo.includes("Crear") && crearTareaApi) {
       const respuesta = await crearTareaApi(data);
-      if(respuesta && respuesta.status === 201){
-      Swal.fire({
-        title: "Tarea creada",
-        text: `La Tarea '${data.nombreTarea}' fue creado correctamente`,
-        icon: "success",
-        background: "#18181b",
-        color: "#f4f4f5",
-        confirmButtonColor: "#3b82f6",
-      });
-      }else{
+      if (respuesta && respuesta.status === 200) {
         Swal.fire({
-        title: "Ocurrio un error",
-        text: `La Tarea '${data.nombreTarea}' No pudo ser creada correctamente`,
-        icon: "success",
-        background: "#18181b",
-        color: "#f4f4f5",
-        confirmButtonColor: "#3b82f6",
-      });
+          title: "Tarea creada",
+          text: `La Tarea '${data.nombreTarea}' fue creado correctamente`,
+          icon: "success",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+      } else {
+        Swal.fire({
+          title: "Ocurrio un error",
+          text: `La Tarea '${data.nombreTarea}' No pudo ser creada correctamente`,
+          icon: "success",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
       }
-      
+
       if (e) {
         (e.target as HTMLFormElement).reset();
       }
-    } else if (id && editarTarea) {
-      editarTarea(id, datosConImagen);
-      Swal.fire({
-        title: "Tarea editada",
-        text: `La Tarea '${data.nombreTarea}' fue editado correctamente`,
-        icon: "success",
-        background: "#18181b",
-        color: "#f4f4f5",
-        confirmButtonColor: "#3b82f6",
-      });
-      navegacion("/administrador");
+    } else if (id) {
+      const respuesta = await editarTareaApi(id, data);
+      if (respuesta && respuesta.status === 200) {
+        Swal.fire({
+          title: "Tarea editada",
+          text: `La Tarea '${data.nombreTarea}' fue editado correctamente`,
+          icon: "success",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+        navegacion("/administrador");
+      } else {
+        Swal.fire({
+          title: "Ocurrio un error",
+          text: `El servicio '${data.nombreTarea}' no pudo ser editado`,
+          icon: "error",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+      }
     }
   };
 
