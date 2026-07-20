@@ -57,7 +57,7 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
   const prioridadSeleccionada = watch("prioridad");
 
   // traigo los datos que necesito del contexto
-  const { buscarTarea, editarTarea } = useAppContext();
+  const { editarTarea } = useAppContext();
   // traer el id de la ruta
   const { id } = useParams<{ id: string }>();
   const navegacion = useNavigate();
