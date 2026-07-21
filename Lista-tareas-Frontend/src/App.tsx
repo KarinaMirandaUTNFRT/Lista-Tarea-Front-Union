@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectorRutas from "./components/routes/ProtectorRutas";
 import { useEffect, useState } from "react";
 import { AppContext } from "./context/AppContext";
-import type { Tarea, tareaFormData } from "./interfaces/tareas";
 import Error404 from "./components/pages/Error404";
 
 function App() {
@@ -29,8 +28,7 @@ function App() {
       value={{
         usuarioLogueado,
         setUsuarioLogueado,
-        tareas,
-        
+             
       }}
     >
       <BrowserRouter>
