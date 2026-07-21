@@ -7,9 +7,10 @@ import { borrarTareaApi } from "../../helpers/queries";
 interface ItemTablaProps {
   tarea: Tarea;
   fila: number;
+  setTareas: React.Dispatch<React.SetStateAction<Tarea[]>>
 }
 
-const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
+const ItemTabla = ({ tarea, fila, setTareas }: ItemTablaProps) => {
     const eliminarTarea = () => {
     Swal.fire({
       title: "¿Estás seguro?",
@@ -25,7 +26,9 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
     }).then(async(result) => {
       if (result.isConfirmed) {
         const respuesta = await borrarTareaApi(tarea._id);
-        if (respuesta && respuesta.status===200){
+        if (respuesta && respuesta.status===200)
+        {
+          setTareas((prevTareas) => prevTareas.filter((item)=>item._id!==tarea._id))
           Swal.fire({
           title: "Eliminado",
           text: `El tarea fue eliminado correctamente`,

@@ -79,6 +79,7 @@ const cargarTareas = async () => {
                   key={tarea._id}
                   tarea={tarea}
                   fila={indice + 1}
+                  setTareas = {setTareas}
                 />
               ))
             ) : (
