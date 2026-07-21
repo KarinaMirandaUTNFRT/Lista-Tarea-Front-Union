@@ -1,6 +1,6 @@
 import type { Tarea  } from "../interfaces/tareas";
 
-const urlTareas = import.meta.env.VITE_SERVICIO
+const urlTareas = import.meta.env.VITE_TAREAS
 
 //GET
 export const listarTareasApi = async ():Promise<Response> =>{

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import type { Tarea } from "../../interfaces/tareas";
 import Swal from "sweetalert2";
-import { useAppContext } from "../../context/AppContext";
 import { LuTrash2,LuPencil  } from "react-icons/lu";
+import { borrarTareaApi } from "../../helpers/queries";
 
 interface ItemTablaProps {
   tarea: Tarea;
@@ -10,9 +10,7 @@ interface ItemTablaProps {
 }
 
 const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
-  const { borrarTarea } = useAppContext();
-
-  const eliminarTarea = () => {
+    const eliminarTarea = () => {
     Swal.fire({
       title: "¿Estás seguro?",
       text: "No se puede revertir este proceso",
@@ -24,10 +22,11 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       cancelButtonColor: "#ef4444", // red-500
       confirmButtonText: "Sí, borrar",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        borrarTarea(tarea._id);
-        Swal.fire({
+        const respuesta = await borrarTareaApi(tarea._id);
+        if (respuesta && respuesta.status===200){
+          Swal.fire({
           title: "Eliminado",
           text: `El tarea fue eliminado correctamente`,
           icon: "success",
@@ -35,6 +34,16 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
           color: "#f4f4f5",
           confirmButtonColor: "#3b82f6",
         });
+        }else{
+          Swal.fire({
+          title: "ocurrio un error",
+          text: `La tarea no se pudo borrar, intentelo en unos minutos`,
+          icon: "error",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+        }
       }
     });
   };
@@ -53,7 +62,7 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         <div className="flex gap-3">
           <Link
-            to={`/administrador/editar/${tarea.id}`}
+            to={`/administrador/editar/${tarea._id}`}
             className="text-amber-500 hover:text-amber-400 transition-colors flex items-center gap-1"
           >
             <LuPencil /> Editar
