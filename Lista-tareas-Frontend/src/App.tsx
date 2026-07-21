@@ -29,19 +29,13 @@ function App() {
     sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
   }, [usuarioLogueado]);
 
-  useEffect(() => {
-    localStorage.setItem("tareasKey", JSON.stringify(tareas));
-  }, [tareas]);
-
   return (
     <AppContext.Provider
       value={{
         usuarioLogueado,
         setUsuarioLogueado,
         tareas,
-        crearTarea,
-        borrarTarea,
-        editarTarea,
+        
       }}
     >
       <BrowserRouter>
