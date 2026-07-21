@@ -66,7 +66,7 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
         const tareaBuscada = await respuesta.json();
         if (tareaBuscada) {
           setValue("nombreTarea", tareaBuscada.nombreTarea);
-          setValue("fecha", tareaBuscada.fecha);
+          setValue("fechaInicio", tareaBuscada.fecha);
           setValue("categoria", tareaBuscada.categoria);
           setValue("descripcion", tareaBuscada.descripcion);
           setValue("prioridad", tareaBuscada.prioridad);
@@ -170,13 +170,13 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
               <input
                 type="date"
                 placeholder="Ej: 2026-10-05"
-                className={inputClass(!!errors.fecha)}
-                {...register("fecha", {
+                className={inputClass(!!errors.fechaInicio)}
+                {...register("fechaInicio", {
                   required: "La fecha es obligatoria",
                 })}
               />
               <p className="text-red-500 text-xs mt-1 italic">
-                {errors.fecha?.message}
+                {errors.fechaInicio?.message}
               </p>
             </div>
 

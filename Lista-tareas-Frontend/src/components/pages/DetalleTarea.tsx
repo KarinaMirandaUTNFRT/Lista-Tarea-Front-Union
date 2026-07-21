@@ -90,8 +90,8 @@ const DetalleTarea = () => {
 
       <p className="text-lg mb-2 text-zinc-300">
         <span className="font-semibold text-zinc-400">Fecha Límite:</span>{" "}
-        {tarea.fecha
-          ? String(tarea.fecha).split("-").reverse().join("/")
+        {tarea.fechaInicio
+          ? String(tarea.fechaInicio).split("-").reverse().join("/")
           : "Sin fecha"}
       </p>
 
