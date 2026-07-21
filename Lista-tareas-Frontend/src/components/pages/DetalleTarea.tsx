@@ -1,6 +1,5 @@
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useAppContext } from "../../context/AppContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   MdOutlineDesktopWindows,
   MdOutlineAssignmentInd,
@@ -9,6 +8,8 @@ import {
   MdConnectWithoutContact,
   MdDataUsage,
 } from "react-icons/md";
+import { buscarTareaApi } from "../../helpers/queries";
+import { Tarea } from "../../interfaces/tareas";
 
 const configuracionCategorias: Record<
   string,
@@ -42,27 +43,40 @@ const configuracionCategorias: Record<
 
 const DetalleTarea = () => {
   const { id } = useParams<{ id: string }>();
-  const { buscarTarea } = useAppContext();
   const navigate = useNavigate();
+  const [tarea, setTarea] = useState<Tarea | null>(null);
+  const [cargando, setcargando] = useState<boolean>(true);
 
   // Buscar el tarea por id
-  const tarea = buscarTarea(id || "");
 
   useEffect(() => {
-    if (!tarea) {
-      // Si no existe el tarea, redirigir a 404
-      navigate("/404", { replace: true });
-    }
-  }, [tarea, navigate]);
+    obtenerTarea();
+  }, []);
 
+  const obtenerTarea = async () => {
+    if (!id) return;
+
+    try {
+      setcargando(true);
+      const respuesta = await buscarTareaApi(id);
+      if (respuesta && respuesta.status === 200) {
+        const data = await respuesta.json();
+        setTarea(data);
+      }
+    } catch (error) {
+      console.error("error al traer los servicios");
+      navigate("/404", { replace: true });
+    } finally {
+      setcargando(false);
+    }
+  };
+  //const config =
+  //configuracionCategorias[tarea?.categoria || "Defecto"] ||
+  //configuracionCategorias.Defecto;
+  //const IconoCategoria = config.Icono;
   if (!tarea) {
     return null;
   }
-
-  const config =
-    configuracionCategorias[tarea?.categoria || "Defecto"] ||
-    configuracionCategorias.Defecto;
-  const IconoCategoria = config.Icono;
 
   return (
     <div className="text-center max-w-xl mx-auto bg-zinc-900 rounded-lg shadow-lg p-8 mt-8">
@@ -76,8 +90,8 @@ const DetalleTarea = () => {
 
       <p className="text-lg mb-2 text-zinc-300">
         <span className="font-semibold text-zinc-400">Fecha Límite:</span>{" "}
-        {tarea.fecha
-          ? String(tarea.fecha).split("-").reverse().join("/")
+        {tarea.fechaInicio
+          ? String(tarea.fechaInicio).split("-").reverse().join("/")
           : "Sin fecha"}
       </p>
 
@@ -86,8 +100,7 @@ const DetalleTarea = () => {
         {tarea.categoria}
       </p>
       <p className="text-lg mb-2 text-zinc-300">
-        <span className="font-semibold">Prioridad:</span>{" "}
-        {tarea.prioridad}
+        <span className="font-semibold">Prioridad:</span> {tarea.prioridad}
       </p>
       <p className="mb-6 text-zinc-300">
         <span className="font-semibold">Descripción:</span> {tarea.descripcion}

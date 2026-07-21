@@ -1,18 +1,17 @@
 import { Link } from "react-router-dom";
 import type { Tarea } from "../../interfaces/tareas";
 import Swal from "sweetalert2";
-import { useAppContext } from "../../context/AppContext";
 import { LuTrash2,LuPencil  } from "react-icons/lu";
+import { borrarTareaApi } from "../../helpers/queries";
 
 interface ItemTablaProps {
   tarea: Tarea;
   fila: number;
+  setTareas: React.Dispatch<React.SetStateAction<Tarea[]>>
 }
 
-const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
-  const { borrarTarea } = useAppContext();
-
-  const eliminarTarea = () => {
+const ItemTabla = ({ tarea, fila, setTareas }: ItemTablaProps) => {
+    const eliminarTarea = () => {
     Swal.fire({
       title: "¿Estás seguro?",
       text: "No se puede revertir este proceso",
@@ -24,10 +23,13 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
       cancelButtonColor: "#ef4444", // red-500
       confirmButtonText: "Sí, borrar",
       cancelButtonText: "Cancelar",
-    }).then((result) => {
+    }).then(async(result) => {
       if (result.isConfirmed) {
-        borrarTarea(tarea._id);
-        Swal.fire({
+        const respuesta = await borrarTareaApi(tarea._id);
+        if (respuesta && respuesta.status===200)
+        {
+          setTareas((prevTareas) => prevTareas.filter((item)=>item._id!==tarea._id))
+          Swal.fire({
           title: "Eliminado",
           text: `El tarea fue eliminado correctamente`,
           icon: "success",
@@ -35,6 +37,16 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
           color: "#f4f4f5",
           confirmButtonColor: "#3b82f6",
         });
+        }else{
+          Swal.fire({
+          title: "ocurrio un error",
+          text: `La tarea no se pudo borrar, intentelo en unos minutos`,
+          icon: "error",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+        }
       }
     });
   };
@@ -48,8 +60,13 @@ const ItemTabla = ({ tarea, fila }: ItemTablaProps) => {
         {tarea.nombreTarea}
       </td>
       <td className="px-6 py-4 whitespace-nowrap text-sm text-zinc-400 font-mono">
-        {tarea.fecha? String(tarea.fecha).split("-").reverse().join("/"): "Sin fecha"}
-      </td>
+  {(() => {
+    if (!tarea.fechaInicio) return "Sin fecha";
+    const fechaLimpia = String(tarea.fechaInicio).split("T")[0]; 
+    const [anio, mes, dia] = fechaLimpia.split("-");
+    return `${dia}/${mes}/${anio.slice(-2)}`;
+  })()}
+</td>
       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
         <div className="flex gap-3">
           <Link

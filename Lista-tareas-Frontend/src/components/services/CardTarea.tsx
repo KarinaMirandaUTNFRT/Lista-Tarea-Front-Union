@@ -48,17 +48,16 @@ const CardTarea = ({ tarea }: CardTareaProps) => {
   const config =
     configuracionCategorias[tarea.categoria] || configuracionCategorias.Defecto;
   const IconoCategoria = config.Icono;
- const [realizada, setRealizada] = useState<boolean>(false);
+  const [realizada, setRealizada] = useState<boolean>(false);
 
- return (
+  return (
     <article
       className={`group w-full bg-zinc-900 rounded-xl border transition-all duration-300 shadow-lg flex flex-col md:flex-row items-center p-4 gap-5 ${
-      realizada 
-          ? "border-emerald-500/50 shadow-emerald-950/10" 
+        realizada
+          ? "border-emerald-500/50 shadow-emerald-950/10"
           : "border-zinc-800 hover:border-red-500/40"
       }`}
     >
-
       <div
         className={`w-16 h-16 shrink-0 rounded-xl border flex items-center justify-center transition-colors duration-300 ${config.clasesFondo}`}
       >
@@ -89,17 +88,23 @@ const CardTarea = ({ tarea }: CardTareaProps) => {
             Fecha de entrega límite
           </span>
           <div className="text-sm text-zinc-400 font-mono">
-            {tarea.fecha
+            {tarea.fechaInicio
               ? (() => {
-                  const fechaObj = new Date(tarea.fecha);
+                  const fechaObj = new Date(tarea.fechaInicio);
+
                   return !isNaN(fechaObj.getTime())
-                    ? fechaObj.toLocaleDateString("es-AR", { timeZone: "UTC" })
+                    ? fechaObj.toLocaleDateString("es-AR", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "2-digit",
+                        timeZone: "UTC",
+                      })
                     : "Sin fecha";
                 })()
               : "Sin fecha"}
           </div>
         </div>
-          <button
+        <button
           onClick={() => setRealizada(!realizada)} // Al hacer clic, invierte el valor (true/false)
           className={`px-4 py-2 rounded-lg text-sm font-bold transition-all active:scale-95 whitespace-nowrap cursor-pointer border ${
             realizada
@@ -110,9 +115,8 @@ const CardTarea = ({ tarea }: CardTareaProps) => {
           {realizada ? "✓ Realizada" : "Marcar realizada"}
         </button>
 
-
         <Link
-          to={`tarea/${tarea.id}`}
+          to={`tarea/${tarea._id}`}
           className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-bold transition-colors shadow-md shadow-blue-900/20 active:scale-95 whitespace-nowrap"
         >
           Ver detalle

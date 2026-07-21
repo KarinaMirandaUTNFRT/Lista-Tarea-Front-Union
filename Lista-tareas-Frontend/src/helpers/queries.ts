@@ -1,7 +1,8 @@
 import type { Tarea  } from "../interfaces/tareas";
 
-const urlTareas = import.meta.env.VITE_SERVICIO
+const urlTareas = import.meta.env.VITE_TAREAS
 
+//GET
 export const listarTareasApi = async ():Promise<Response> =>{
     try{
         const respuesta = await fetch(urlTareas)
@@ -21,7 +22,7 @@ export const buscarTareaApi = async (id:string):Promise<Response> =>{
         throw error
     }
 };
-
+//POST
 export const crearTareaApi = async (tarea: Tarea ):Promise<Response> =>{
     try{
         const respuesta = await fetch(urlTareas, {

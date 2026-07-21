@@ -1,7 +1,7 @@
 export interface Tarea  {
-  id: string;
+  _id: string;
   nombreTarea: string;
-  fecha: Date;
+  fechaInicio?: Date;
   categoria: string;
   descripcion: string;
   prioridad: string; 

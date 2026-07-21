@@ -9,7 +9,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectorRutas from "./components/routes/ProtectorRutas";
 import { useEffect, useState } from "react";
 import { AppContext } from "./context/AppContext";
-import type { Tarea, tareaFormData } from "./interfaces/tareas";
 import Error404 from "./components/pages/Error404";
 
 function App() {
@@ -19,63 +18,17 @@ function App() {
   const [usuarioLogueado, setUsuarioLogueado] = useState<boolean>(
     usuarioSessionStorage,
   );
-  // agregamos los tareas
-  const tareasLocalStorage = JSON.parse(
-    localStorage.getItem("tareasKey") || "[]",
-  );
-  const [tareas, setTareas] = useState<Tarea[]>(tareasLocalStorage);
-
+   
   useEffect(() => {
     sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
   }, [usuarioLogueado]);
-
-  useEffect(() => {
-    localStorage.setItem("tareasKey", JSON.stringify(tareas));
-  }, [tareas]);
-
-  // logicar para trabajar con los sercicios
-  const crearTarea = (dataTarea: tareaFormData) => {
-    const tareaNuevo: Tarea = {
-      ...dataTarea,
-      id: crypto.randomUUID(),
-    };
-    setTareas([...tareas, tareaNuevo]);
-  };
-
-  const borrarTarea = (idTarea: string) => {
-    const tareasFiltrados = tareas.filter(
-      (itemTarea) => itemTarea.id !== idTarea,
-    );
-    setTareas(tareasFiltrados);
-  };
-
-  const editarTarea = (
-    idTarea: string,
-    tareaEditar: tareaFormData,
-  ) => {
-    const tareasEditados = tareas.map((itemTarea) => {
-      if (itemTarea.id === idTarea) {
-        return { ...itemTarea, ...tareaEditar };
-      }
-      return itemTarea;
-    });
-    setTareas(tareasEditados);
-  };
-
-  const buscarTarea = (idTarea: string): Tarea | undefined => {
-    return tareas.find((item) => item.id === idTarea);
-  };
 
   return (
     <AppContext.Provider
       value={{
         usuarioLogueado,
         setUsuarioLogueado,
-        tareas,
-        crearTarea,
-        borrarTarea,
-        editarTarea,
-        buscarTarea
+             
       }}
     >
       <BrowserRouter>
@@ -91,17 +44,13 @@ function App() {
                 <Route
                   path="crear"
                   element={
-                    <FormularioTarea
-                      titulo={"Crear Tarea"}
-                    ></FormularioTarea>
+                    <FormularioTarea titulo={"Crear Tarea"}></FormularioTarea>
                   }
                 />
                 <Route
                   path="editar/:id"
                   element={
-                    <FormularioTarea
-                      titulo={"Editar Tarea"}
-                    ></FormularioTarea>
+                    <FormularioTarea titulo={"Editar Tarea"}></FormularioTarea>
                   }
                 />
               </Route>
