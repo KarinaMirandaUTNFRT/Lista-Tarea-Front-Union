@@ -41,23 +41,21 @@ const configuracionCategorias: Record<
   },
 };
 
-const DetalleTarea = () => {
+  const DetalleTarea = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [tarea, setTarea] = useState<Tarea | null>(null);
-  const [cargando, setcargando] = useState<boolean>(true);
-
+  //const [cargando, setcargando] = useState<boolean>(true);
   // Buscar el tarea por id
-
   useEffect(() => {
     obtenerTarea();
   }, []);
-
+  
   const obtenerTarea = async () => {
     if (!id) return;
 
     try {
-      setcargando(true);
+      //setcargando(true);
       const respuesta = await buscarTareaApi(id);
       if (respuesta && respuesta.status === 200) {
         const data = await respuesta.json();
@@ -66,8 +64,8 @@ const DetalleTarea = () => {
     } catch (error) {
       console.error("error al traer los servicios");
       navigate("/404", { replace: true });
-    } finally {
-      setcargando(false);
+    //} finally {
+      //setcargando(false);
     }
   };
   //const config =
