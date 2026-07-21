@@ -1,10 +1,7 @@
 import { createContext, useContext } from "react";
-import type { Tarea, tareaFormData } from "../interfaces/tareas";
-
 export interface AppContextType {
   usuarioLogueado: boolean;
   setUsuarioLogueado: React.Dispatch<React.SetStateAction<boolean>>;
-  
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
