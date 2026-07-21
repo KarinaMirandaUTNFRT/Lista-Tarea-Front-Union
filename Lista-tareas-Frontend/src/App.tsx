@@ -23,8 +23,7 @@ function App() {
   const tareasLocalStorage = JSON.parse(
     localStorage.getItem("tareasKey") || "[]",
   );
-  const [tareas, setTareas] = useState<Tarea[]>(tareasLocalStorage);
-
+  
   useEffect(() => {
     sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
   }, [usuarioLogueado]);
