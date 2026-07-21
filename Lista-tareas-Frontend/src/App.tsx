@@ -19,11 +19,7 @@ function App() {
   const [usuarioLogueado, setUsuarioLogueado] = useState<boolean>(
     usuarioSessionStorage,
   );
-  // agregamos los tareas
-  const tareasLocalStorage = JSON.parse(
-    localStorage.getItem("tareasKey") || "[]",
-  );
-  
+   
   useEffect(() => {
     sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
   }, [usuarioLogueado]);
