@@ -33,32 +33,6 @@ function App() {
     localStorage.setItem("tareasKey", JSON.stringify(tareas));
   }, [tareas]);
 
-  // logicar para trabajar con los sercicios
-  const crearTarea = (dataTarea: tareaFormData) => {
-    const tareaNuevo: Tarea = {
-      ...dataTarea,
-      id: crypto.randomUUID(),
-    };
-    setTareas([...tareas, tareaNuevo]);
-  };
-
-  const borrarTarea = (idTarea: string) => {
-    const tareasFiltrados = tareas.filter(
-      (itemTarea) => itemTarea.id !== idTarea,
-    );
-    setTareas(tareasFiltrados);
-  };
-
-  const editarTarea = (idTarea: string, tareaEditar: tareaFormData) => {
-    const tareasEditados = tareas.map((itemTarea) => {
-      if (itemTarea.id === idTarea) {
-        return { ...itemTarea, ...tareaEditar };
-      }
-      return itemTarea;
-    });
-    setTareas(tareasEditados);
-  };
-
   return (
     <AppContext.Provider
       value={{
