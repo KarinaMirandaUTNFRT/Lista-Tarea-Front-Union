@@ -4,11 +4,7 @@ import type { Tarea, tareaFormData } from "../interfaces/tareas";
 export interface AppContextType {
   usuarioLogueado: boolean;
   setUsuarioLogueado: React.Dispatch<React.SetStateAction<boolean>>;
-  tareas: Tarea[];
-  crearTarea: (nuevoTarea: tareaFormData) => void;
-  borrarTarea: (idTarea: string) => void;
-  editarTarea: (idTarea: string, tareaEditar: tareaFormData) => void;
- 
+  
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
