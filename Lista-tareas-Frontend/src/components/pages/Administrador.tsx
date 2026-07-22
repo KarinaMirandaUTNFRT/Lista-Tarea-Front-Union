@@ -17,7 +17,7 @@ useEffect(() => {
 const cargarTareas = async () => {
   try{
     const respuestaTarea = await listarTareasApi();
-    console.log("respuesta Tarea Recibida");
+    
     if (respuestaTarea && respuestaTarea.status === 200) {
       const data = await respuestaTarea.json();
       console.log(data);
