@@ -62,7 +62,7 @@ const configuracionCategorias: Record<
         setTarea(data);
       }
     } catch (error) {
-      console.error("error al traer los servicios");
+      console.error("error al traer las Tareas");
       navigate("/404", { replace: true });
     //} finally {
       //setcargando(false);

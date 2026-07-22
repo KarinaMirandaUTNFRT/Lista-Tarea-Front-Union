@@ -1,10 +1,10 @@
-# 💻 CRUD de Servicios de programación
+# 💻 CRUD de Tareas de programación
 
-Este proyecto es una aplicación web desarrollada con React y TypeScript que permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre un listado de servicios. Es ideal para aprender y practicar conceptos de desarrollo frontend moderno.
+Este proyecto es una aplicación web desarrollada con React y TypeScript que permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre un listado de tareas. Es ideal para aprender y practicar conceptos de desarrollo frontend moderno.
 
 ## 🦖 Demo
 
-mira la demo del proyecto [aqui](https://catalogo-servicios-c23.netlify.app/)
+mira la demo del proyecto [aqui](https://catalogo-tareas-c23.netlify.app/)
 
 ## 🚀 Librerías utilizadas
 
@@ -20,7 +20,7 @@ mira la demo del proyecto [aqui](https://catalogo-servicios-c23.netlify.app/)
 
 1. **Clonar el repositorio:**
    ```bash
-   git clone https://github.com/rollingcodeschool/crud-servicios-c23
+   git clone https://github.com/rollingcodeschool/crud-tareas-c23
    ```
 2. **Instalar dependencias:**
    ```bash
@@ -50,15 +50,15 @@ mira la demo del proyecto [aqui](https://catalogo-servicios-c23.netlify.app/)
 │   ├── components/
 │   │   ├── pages/
 │   │   │   ├── Administrador.tsx
-│   │   │   ├── DetalleServicio.tsx
+│   │   │   ├── DetalleTarea.tsx
 │   │   │   ├── Error404.tsx
-│   │   │   ├── FormularioServicio.tsx
+│   │   │   ├── FormularioTarea.tsx
 │   │   │   ├── Inicio.tsx
 │   │   │   └── Login.tsx
 │   │   ├── routes/
 │   │   │   └── ProtectorRutas.tsx
 │   │   ├── services/
-│   │   │   ├── CardServicio.tsx
+│   │   │   ├── CardTarea.tsx
 │   │   │   └── ItemTabla.tsx
 │   │   └── shared/
 │   │       ├── Footer.tsx
@@ -66,7 +66,7 @@ mira la demo del proyecto [aqui](https://catalogo-servicios-c23.netlify.app/)
 │   ├── context/
 │   │   └── AppContext.tsx
 │   └── interfaces/
-│       └── servicios.ts
+│       └── tareas.ts
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
