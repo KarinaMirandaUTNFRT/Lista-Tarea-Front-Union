@@ -9,31 +9,31 @@ import Swal from "sweetalert2";
 
 const Administrador = () => {
   //const { tareas } = useAppContext();
-const [tareas, setTareas] = useState<Tarea[]>([]);
+  const [tareas, setTareas] = useState<Tarea[]>([]);
 
-useEffect(() => {
+  useEffect(() => {
     cargarTareas();
   }, []);
-const cargarTareas = async () => {
-  try{
-    const respuestaTarea = await listarTareasApi();
-    
-    if (respuestaTarea && respuestaTarea.status === 200) {
-      const data = await respuestaTarea.json();
-      console.log(data);
-      setTareas(data);
-    } else{
-      Swal.fire({
-        title: "Ocurrio un Error",
-        text: "No se pudo mostrar la tarea creada",
-        icon: "error",
-        background: "#18181b",
-        color: "#f4f4f5",
-        confirmButtonColor: "#3b82f6",
-      });
-    }
-  }catch (error) { 
-          console.error(error);
+  const cargarTareas = async () => {
+    try {
+      const respuestaTarea = await listarTareasApi();
+
+      if (respuestaTarea && respuestaTarea.status === 200) {
+        const data = await respuestaTarea.json();
+
+        setTareas(data);
+      } else {
+        Swal.fire({
+          title: "Ocurrio un Error",
+          text: "No se pudo mostrar la tarea creada",
+          icon: "error",
+          background: "#18181b",
+          color: "#f4f4f5",
+          confirmButtonColor: "#3b82f6",
+        });
+      }
+    } catch (error) {
+      console.error(error);
       Swal.fire({
         title: "Ocurrió un Error",
         text: "Error de conexión con el servidor",
@@ -91,7 +91,7 @@ const cargarTareas = async () => {
                   key={tarea._id}
                   tarea={tarea}
                   fila={indice + 1}
-                  setTareas = {setTareas}
+                  setTareas={setTareas}
                 />
               ))
             ) : (

@@ -14,7 +14,7 @@ const Inicio = () => {
 
   const cargarTareas = async () => {
     const respuestaTarea = await listarTareasApi();
-    console.log(respuestaTarea);
+    
     if (respuestaTarea && respuestaTarea.status === 200) {
       const data = await respuestaTarea.json();
       console.log(data);

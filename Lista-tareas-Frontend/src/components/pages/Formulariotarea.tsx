@@ -116,7 +116,7 @@ const FormularioTarea = ({ titulo }: FormularioTareaProps) => {
       } else {
         Swal.fire({
           title: "Ocurrio un error",
-          text: `El servicio '${data.nombreTarea}' no pudo ser editado`,
+          text: `La tarea '${data.nombreTarea}' no pudo ser editada`,
           icon: "error",
           background: "#18181b",
           color: "#f4f4f5",
