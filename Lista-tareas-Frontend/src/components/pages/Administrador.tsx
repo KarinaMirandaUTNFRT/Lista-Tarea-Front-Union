@@ -15,16 +15,28 @@ useEffect(() => {
     cargarTareas();
   }, []);
 const cargarTareas = async () => {
+  try{
     const respuestaTarea = await listarTareasApi();
-    console.log(respuestaTarea);
+    console.log("respuesta Tarea Recibida");
     if (respuestaTarea && respuestaTarea.status === 200) {
       const data = await respuestaTarea.json();
       console.log(data);
       setTareas(data);
-    } else {
+    } else{
       Swal.fire({
         title: "Ocurrio un Error",
         text: "No se pudo mostrar la tarea creada",
+        icon: "error",
+        background: "#18181b",
+        color: "#f4f4f5",
+        confirmButtonColor: "#3b82f6",
+      });
+    }
+  }catch (error) { 
+          console.error(error);
+      Swal.fire({
+        title: "Ocurrió un Error",
+        text: "Error de conexión con el servidor",
         icon: "error",
         background: "#18181b",
         color: "#f4f4f5",

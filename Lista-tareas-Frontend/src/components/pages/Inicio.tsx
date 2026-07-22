@@ -1,11 +1,11 @@
-//import { useAppContext } from "../../context/AppContext";
+
 import { useEffect, useState } from "react";
 import CardTarea from "../services/CardTarea";
 import { Tarea } from "../../interfaces/tareas";
 import { listarTareasApi } from "../../helpers/queries";
 import Swal from "sweetalert2";
 const Inicio = () => {
-  //const { tareas } = useAppContext();
+
   const [tareas, setTareas] = useState<Tarea[]>([]);
 
   useEffect(() => {
